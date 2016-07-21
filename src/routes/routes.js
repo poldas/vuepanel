@@ -1,56 +1,17 @@
-import config from './config'
-import init from './init'
-init(config)
-
-import Vue from 'vue'
-import Router from 'vue-router'
-import Resource from 'vue-resource'
-import NProgress from 'nprogress'
-import './transitions'
-
-Vue.use(Router)
-Vue.use(Resource)
-
-import App from './App'
-
-const { sidebar } = config
-const router = new Router({
-  saveScrollPosition: true,
-  transitionOnLoad: true,
-  linkActiveClass: 'is-active'
-})
-
-Vue.http.interceptors.push((request, next) => {
-  NProgress.inc(0.2)
-
-  next((response) => {
-    NProgress.done()
-    return response
-  })
-})
-
-router.beforeEach(({ next }) => {
-  NProgress.start()
-  if (sidebar.isMobile && sidebar.opened) {
-    sidebar.opened = false
-  }
-  next()
-})
-
-router.afterEach(() => {
-  NProgress.done()
-})
-let componentPath = './components/'
-import Dashboard from "./components/pages/Dashboard/"
-import Analiza from "./components/pages/Analiza/"
-import NewAnaliza from "./components/pages/NewAnaliza/"
+var path = require('path')
+const componentPath = './components/'
+import Dashboard from "../components/pages/Dashboard/"
+import Analiza from "../components/pages/Analiza/"
+import NewAnaliza from "../components/pages/NewAnaliza/"
 
 const lazyLoading = (path, ext = '.vue') => {
+    console.log(path)
     return (resolve) => {
         require([`${path}${ext}`], resolve)
     }
 }
-router.map({
+
+export default {
     // '/login': {
     //   name: 'Login',
     //   component: Login
@@ -168,11 +129,4 @@ router.map({
         name: 'Handsontable',
         component: lazyLoading(componentPath + 'pages/Tables/Handsontable')
     }
-})
-
-router.redirect({
-  '/ui': '/ui/typography',
-  '*': '/dashboard'
-})
-
-router.start(App, 'app')
+}

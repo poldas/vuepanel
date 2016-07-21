@@ -53,7 +53,8 @@
     "vue-peity": "0.3.0",
     "vue-resource": "0.9.3",
     "vue-router": "0.7.13",
-    "vuex": "1.0.0-rc"
+    "vuex": "1.0.0-rc",
+    "chart.js": "2.2.0-rc.1"
   },
   "devDependencies": {
     "babel-core": "^6.10.x",

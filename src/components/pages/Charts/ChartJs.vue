@@ -1,74 +1,36 @@
 <template>
   <div>
     <div class="tile is-ancestor">
-      <div class="tile is-parent">
-        <article class="tile is-child box">
-          <h4 class="title">PIE</h4>
-          <chart :type="'pie'" :data="pieData" :options="options"></chart>
-        </article>
-      </div>
-      <div class="tile is-parent">
-        <article class="tile is-child box">
-          <h4 class="title">DOUGHNUT</h4>
-          <chart :type="'doughnut'" :data="pieData" :options="options"></chart>
-        </article>
-      </div>
-      <div class="tile is-parent">
-        <article class="tile is-child box">
-          <h4 class="title">POLAR</h4>
-          <chart :type="'polarArea'" :data="pieData" :options="options"></chart>
-        </article>
-      </div>
-    </div>
-
-    <div class="tile is-ancestor">
-      <div class="tile is-parent">
-        <article class="tile is-child box">
-          <h4 class="title">ANIMATED RADAR</h4>
-          <chart :type="'radar'" :data="waveData" :options="options"></chart>
-        </article>
-      </div>
-      <div class="tile is-parent">
-        <article class="tile is-child box">
-          <h4 class="title">ANIMATED BARS</h4>
-          <chart :type="'bar'" :data="waveData" :options="options"></chart>
-        </article>
-      </div>
-    </div>
-
-    <div class="tile is-ancestor">
-      <div class="tile is-parent">
-        <article class="tile is-child box">
-          <h4 class="title">RADAR</h4>
-          <chart :type="'radar'" :data="seriesData" :options="options_3"></chart>
-        </article>
-      </div>
-      <div class="tile is-parent">
-        <article class="tile is-child box">
-          <h4 class="title">LINE</h4>
-          <chart :type="'line'" :data="seriesData" :options="options_3"></chart>
-        </article>
-      </div>
-      <div class="tile is-parent">
-        <article class="tile is-child box">
-          <h4 class="title">BARS</h4>
-          <chart :type="'bar'" :data="seriesData" :options="options_3"></chart>
-        </article>
-      </div>
+        <div class="tile is-parent">
+            <article class="tile is-child box">
+                <h4 class="title">PIE</h4>
+                <p @click="zmien">Zmień typ</p>
+                <chart :type.sync="zmien_type" :data.sync="source" :options.sync="options"></chart>
+            </article>
+        </div>
     </div>
   </div>
 </template>
 
 <script>
-import Chart from 'vue-bulma-chartjs'
+//import Chart from 'vue-bulma-chartjs'
+import Chart from '../../ui/Charts/ChartJs'
 
 export default {
   components: {
     Chart
   },
-
+  methods: {
+      zmien () {
+          console.log(this.zmien_type )
+          console.log(this.source )
+          this.zmien_type = 'pie'
+          console.log(this.zmien_type )
+      }
+  },
   data () {
     return {
+      zmien_type: 'bar',
       labels: ['Sleeping', 'Designing', 'Coding', 'Cycling'],
       data: [20, 40, 5, 35],
 
@@ -105,6 +67,13 @@ export default {
   },
 
   computed: {
+      source() {
+          if (this.zmien_type == 'bar')
+                  return this.seriesData
+          if (this.zmien_type == 'pie')
+              return this.pieData
+          return this.waveData
+      },
     pieData () {
       return {
         labels: this.labels,
